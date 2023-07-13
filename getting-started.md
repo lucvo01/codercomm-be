@@ -100,7 +100,31 @@
 ```
 
 ### Post APIs
+```javascript
+/**
+ * @route GET /posts/user/:userId?page=1&limit=10
+ * @description Get all posts a user can see with pagination
+ * @access Login required
+ */
+```
 
+```javascript
+/**
+ * @route POST /posts
+ * @description Create a new post 
+ * @body { content, image }
+ * @access login required
+ */
+```
+
+```javascript
+/**
+ * @route PUT /posts/:id
+ * @description Update a post
+ * @body { content, image }
+ * @access login required
+ */
+```
 ### Comment APIs
 
 ```javascript
