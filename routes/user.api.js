@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("..//controllers/user.controller");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const validators = require("../middlewares/validators");
 const authentication = require("../middlewares/authentication");
 /**
@@ -42,7 +42,9 @@ router.get("/me", authentication.loginRequired, userController.getCurrentUser);
  * @description Get a user profile
  * @access Login required
  */
-router.get("/:id", authentication.loginRequired, userController.getSingleUser);
+router.get("/:id", authentication.loginRequired, validators.validate([
+  param('id').exists().isString().custom(validators.checkObjectJd)
+]), userController.getSingleUser);
 
 /**
  * @route PUT /users/:id
@@ -50,6 +52,13 @@ router.get("/:id", authentication.loginRequired, userController.getSingleUser);
  * @body { name, avatarUrl, coverUrl, aboutMe, city, country, company, jobTitle, facebookLink, instagramLink, linkedinLink, twitterLink }
  * @access Login required
  */
-router.put("/:id", authentication.loginRequired, userController.updateProfile);
+router.put(
+  "/:id",
+  authentication.loginRequired,
+  validators.validate([
+    param("id").exists().isString().custom(validators.checkObjectJd)
+  ]),
+  userController.updateProfile
+);
 
 module.exports = router;
