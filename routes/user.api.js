@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("..//controllers/user.controller");
 const { body } = require("express-validator");
 const validators = require("../middlewares/validators");
+const authentication = require("../middlewares/authentication");
 /**
  * @route POST /users
  * @description Register new user
@@ -27,18 +28,21 @@ router.post(
  * @description Get user with pagin
  * @access Login required
  */
+router.get("/", authentication.loginRequired ,userController.getUsers)
 
 /**
  * @route GET /users/me
  * @description Get current user info
  * @access Login required
  */
+router.get("/me", authentication.loginRequired, userController.getCurrentUser);
 
 /**
  * @route GET /users/:id
  * @description Get a user profile
  * @access Login required
  */
+router.get("/:id", authentication.loginRequired, userController.getSingleUser);
 
 /**
  * @route PUT /users/:id
@@ -46,5 +50,6 @@ router.post(
  * @body { name, avatarUrl, coverUrl, aboutMe, city, country, company, jobTitle, facebookLink, instagramLink, linkedinLink, twitterLink }
  * @access Login required
  */
+router.put("/:id", authentication.loginRequired, userController.updateProfile);
 
 module.exports = router;
