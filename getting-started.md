@@ -64,14 +64,15 @@
  * @description Register new user
  * @body {name, email, password}
  * @access Public
-*/
+ */
 ```
 
 ```javascript
 /**
  * @route GET /users?page=1&limit=10
  * @description Get user with pagin
- * /
+ * @access Login required
+ */
 ```
 
 ```javascript
@@ -79,7 +80,7 @@
  * @route GET /users/me
  * @description Get current user info
  * @access Login required
- * /
+ */
 ```
 
 ```javascript
@@ -87,7 +88,7 @@
  * @route GET /users/:id
  * @description Get a user profile
  * @access Login required
- * /
+ */
 ```
 
 ```javascript
@@ -96,10 +97,11 @@
  * @description Update user profile
  * @body { name, avatarUrl, coverUrl, aboutMe, city, country, company, jobTitle, facebookLink, instagramLink, linkedinLink, twitterLink }
  * @access Login required
- * /
+ */
 ```
 
 ### Post APIs
+
 ```javascript
 /**
  * @route GET /posts/user/:userId?page=1&limit=10
@@ -111,7 +113,7 @@
 ```javascript
 /**
  * @route POST /posts
- * @description Create a new post 
+ * @description Create a new post
  * @body { content, image }
  * @access login required
  */
@@ -125,6 +127,15 @@
  * @access login required
  */
 ```
+
+```javascript
+/**
+ * @route DELETE /posts/:id
+ * @description Delete a post
+ * @access login required
+ */
+```
+
 ### Comment APIs
 
 ```javascript
@@ -132,7 +143,7 @@
  * @route GET /comments/:id
  * @description Get details of a comment
  * @access Login require
-*/
+ */
 ```
 
 ```javascript
@@ -176,6 +187,7 @@
  * @access Login required
  * /
 ```
+
 ### Reaction APIs
 
 ```javascript
@@ -186,6 +198,7 @@
  * @access Login required
  * /
 ```
+
 ### Friend APIs
 
 ```javascript
@@ -229,4 +242,3 @@
  * @access Login required
  * /
 ```
-
