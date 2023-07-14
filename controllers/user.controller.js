@@ -7,7 +7,7 @@ userController.register = catchAsync(async (req, res, next) => {
 
     // Get data from request
     const { name, email, password } = req.body;
-    // Validation
+    // Business Logisc Validation
     let user = await User.findOne({ email });
    if(user) throw new AppError(400, "User already exists", "Registration Error")
 

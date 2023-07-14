@@ -1,13 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("..//controllers/user.controller");
+const { body } = require("express-validator");
+const validators = require("../middlewares/validators");
 /**
  * @route POST /users
  * @description Register new user
  * @body {name, email, password}
  * @access Public
  */
-router.post("/", userController.register);
+router.post(
+  "/",
+  validators.validate([
+    body("name", "Invalid name").exists().notEmpty(),
+    body("email", "Invalid email")
+      .exists()
+      .isEmail()
+      .normalizeEmail({ gmail_remove_dots: false }),
+    body("password", "Invalid password").exists().notEmpty()
+  ]),
+  userController.register
+);
 
 /**
  * @route GET /users?page=1&limit=10
