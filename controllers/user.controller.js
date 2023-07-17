@@ -60,24 +60,24 @@ userController.getUsers = catchAsync(async (req, res, next) => {
     .skip(offset)
     .limit(limit);
 
-    const promises = users.map(async (user) => {
-      let temp = user.toJSON();
-      temp.friendship = await Friend.findOne({
-        $or: [
-          { from: currentUserId, to: user._id },
-          { from: user._id, to: currentUserId }
-        ]
-      });
-      return temp
-    })
-    const userWithFriendship = await Promise.all(promises)
-    
+  const promises = users.map(async (user) => {
+    let temp = user.toJSON();
+    temp.friendship = await Friend.findOne({
+      $or: [
+        { from: currentUserId, to: user._id },
+        { from: user._id, to: currentUserId }
+      ]
+    });
+    return temp;
+  });
+  const userWithFriendship = await Promise.all(promises);
+
   // Response
   return sendResponse(
     res,
     200,
     true,
-    { user, totalPages, count },
+    { users, totalPages, count },
     null,
     "Create User successful"
   );
@@ -93,7 +93,7 @@ userController.getCurrentUser = catchAsync(async (req, res, next) => {
   // Process data
 
   // Response
-  sendResponse(res, 200, true,  user , null, "Get current user successful");
+  sendResponse(res, 200, true, user, null, "Get current user successful");
 });
 
 userController.getSingleUser = catchAsync(async (req, res, next) => {
@@ -106,7 +106,7 @@ userController.getSingleUser = catchAsync(async (req, res, next) => {
   if (!user) throw new AppError(400, "User not found", "Get single user error");
 
   // Process data
-  user  = user.toJSON
+  user = user.toJSON;
   user.friendship = await Friend.findOne({
     $or: [
       { from: currentUserId, to: user._id },
@@ -114,7 +114,7 @@ userController.getSingleUser = catchAsync(async (req, res, next) => {
     ]
   });
   // Response
-  sendResponse(res, 200, true, { user }, null, "Get single user successful");
+  return sendResponse(res, 200, true, user, null, "Get single user successful");
 });
 
 userController.updateProfile = catchAsync(async (req, res, next) => {
@@ -123,29 +123,36 @@ userController.updateProfile = catchAsync(async (req, res, next) => {
   const userId = req.params.id;
 
   // Business Logisc Validation
-  if(currentUserId !== userId) throw new AppError(400, "Permission required", "Update user error");
-let user = await User.findById(userId);
-if (!user) throw new AppError(400, "User not found", "Update user error");
+  if (currentUserId !== userId)
+    throw new AppError(400, "Permission required", "Update user error");
+  let user = await User.findById(userId);
+  if (!user) throw new AppError(400, "User not found", "Update user error");
 
   // Process data
-const allows = [
-  "name", 'avatarUrl', 'coverUrl', 'aboutMe', 'city', 'country', 'company', 'jobTitle', 'facebookLink', 'instagramLink', 'linkedinLink', 'twitterLink'
-];
+  const allows = [
+    "name",
+    "avatarUrl",
+    "coverUrl",
+    "aboutMe",
+    "city",
+    "country",
+    "company",
+    "jobTitle",
+    "facebookLink",
+    "instagramLink",
+    "linkedinLink",
+    "twitterLink"
+  ];
 
-allows.forEach((field) => {
-  if(req.body[field] !== undefined){
-    user[field]= req.body[field]
-  }
-})
+  allows.forEach((field) => {
+    if (req.body[field] !== undefined) {
+      user[field] = req.body[field];
+      user.save();
+    }
+  });
+
   // Response
-  sendResponse(
-    res,
-    200,
-    true,
-    user ,
-    null,
-    "Update User successful"
-  );
+  return sendResponse(res, 200, true, user, null, "Update User successful");
 });
 
 module.exports = userController;

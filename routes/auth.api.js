@@ -13,7 +13,6 @@ const { body } = require("express-validator");
 router.post(
   "/login",
   validators.validate([
-   
     body("email", "Invalid email")
       .exists()
       .isEmail()

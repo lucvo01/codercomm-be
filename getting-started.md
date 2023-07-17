@@ -181,11 +181,10 @@
 
 ```javascript
 /**
- * @route GET /posts/:id/comment
+ * @route GET /posts/:id/comments
  * @description Get comments of a post
- * @body { content, postId }
  * @access Login required
- * /
+ */
 ```
 
 ### Reaction APIs
@@ -241,4 +240,20 @@
  * @body { status 'accepted' or 'declined' }
  * @access Login required
  * /
+```
+
+```javascript
+/**
+ * @route DELETE /friends/requests/:userId
+ * @description Cancel a friend request
+ * @access Login required
+ */
+```
+
+```javascript
+/**
+ * @route PUT /friends/:userId
+ * @description Remove a friend
+ * @access Login required
+ */
 ```

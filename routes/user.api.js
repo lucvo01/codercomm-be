@@ -4,6 +4,7 @@ const userController = require("..//controllers/user.controller");
 const { body, param } = require("express-validator");
 const validators = require("../middlewares/validators");
 const authentication = require("../middlewares/authentication");
+
 /**
  * @route POST /users
  * @description Register new user
@@ -28,7 +29,7 @@ router.post(
  * @description Get user with pagin
  * @access Login required
  */
-router.get("/", authentication.loginRequired ,userController.getUsers)
+router.get("/", authentication.loginRequired, userController.getUsers);
 
 /**
  * @route GET /users/me
@@ -42,9 +43,14 @@ router.get("/me", authentication.loginRequired, userController.getCurrentUser);
  * @description Get a user profile
  * @access Login required
  */
-router.get("/:id", authentication.loginRequired, validators.validate([
-  param('id').exists().isString().custom(validators.checkObjectJd)
-]), userController.getSingleUser);
+router.get(
+  "/:id",
+  authentication.loginRequired,
+  validators.validate([
+    param("id").exists().isString().custom(validators.checkObjectJd)
+  ]),
+  userController.getSingleUser
+);
 
 /**
  * @route PUT /users/:id
