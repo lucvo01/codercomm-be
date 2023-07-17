@@ -81,6 +81,7 @@ friendController.sendFriendRequest = catchAsync(async (req, res, next) => {
 
 friendController.getReceivedFriendRequestList = catchAsync(
   async (req, res, next) => {
+     const currentUserId = req.userId;
     let { page, limit, ...filter } = { ...req.query };
 
     let requestList = await Friend.find({
@@ -116,7 +117,7 @@ friendController.getReceivedFriendRequestList = catchAsync(
 
     const usersWithFriendship = users.map((user) => {
       let temp = user.toJSON();
-      temp.friendship = friendList.find((friendship) => {
+      temp.friendship = requestList.find((friendship) => {
         if (
           friendship.from.equals(user._id) ||
           friendship.to.equals(user._id)
@@ -216,7 +217,7 @@ friendController.getFriendList = catchAsync(async (req, res, next) => {
 
   const filterConditions = [{ _id: { $in: friendIDs } }];
   if (filter.name) {
-    filterConditions.pusj({
+    filterConditions.push({
       ["name"]: { $regex: filter.name, $option: "i" }
     });
   }

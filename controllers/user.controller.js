@@ -8,7 +8,7 @@ const userController = {};
 userController.register = catchAsync(async (req, res, next) => {
   // Get data from request
   let { name, email, password } = req.body;
-  // Business Logisc Validation
+  // Business Logic Validation
   let user = await User.findOne({ email });
   if (user)
     throw new AppError(400, "User already exists", "Registration Error");
@@ -37,8 +37,6 @@ userController.getUsers = catchAsync(async (req, res, next) => {
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 10;
 
-  // Business Logic Validation
-  // Process data
   const filterConditions = [{ isDeleted: false }];
 
   if (filter.name) {
@@ -77,7 +75,7 @@ userController.getUsers = catchAsync(async (req, res, next) => {
     res,
     200,
     true,
-    { users, totalPages, count },
+    { users: userWithFriendship, totalPages, count },
     null,
     "Create User successful"
   );
@@ -86,7 +84,7 @@ userController.getUsers = catchAsync(async (req, res, next) => {
 userController.getCurrentUser = catchAsync(async (req, res, next) => {
   // Get data from request
   const currentUserId = req.userId;
-  // Business Logisc Validation
+  // Business Logic Validation
   const user = await User.findById(currentUserId);
   if (!user)
     throw new AppError(400, "User not found", "Get current user error");
@@ -106,7 +104,7 @@ userController.getSingleUser = catchAsync(async (req, res, next) => {
   if (!user) throw new AppError(400, "User not found", "Get single user error");
 
   // Process data
-  user = user.toJSON;
+  user = user.toJSON();
   user.friendship = await Friend.findOne({
     $or: [
       { from: currentUserId, to: user._id },

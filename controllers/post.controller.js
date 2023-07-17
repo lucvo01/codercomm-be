@@ -3,7 +3,6 @@ const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const User = require("../models/User");
 const Friend = require("../models/Friend");
-// const { post } = require("../routes/comment.api");
 
 const postController = {};
 
@@ -63,7 +62,7 @@ postController.getSinglePost = catchAsync(async (req, res, next) => {
   let post = await Post.findById(postId);
   if (!post) throw new AppError(400, "Post not found", "Get single post error");
 
-  post = post.toJSON;
+  post = post.toJSON();
   post.comments = await Comment.find({ post: post._id }).populate("author");
   // Response
   return sendResponse(res, 200, true, post, null, "Get single post successful");
@@ -105,7 +104,6 @@ postController.getPosts = catchAsync(async (req, res, next) => {
   const filterCriteria = filterConditions.length
     ? { $and: filterConditions }
     : {};
-  console.log("filterCriteria", filterCriteria);
   const count = await Post.countDocuments(filterCriteria);
   const totalPages = Math.ceil(count / limit);
   const offset = limit * (page - 1);
