@@ -1,8 +1,11 @@
 # CoderComm
+
 Our company is developing a social platform app for users to connect and share content with each other. The app will include a range of features and functional requirements to allow users to create and manage their profiles, search for and follow other users, and post and interact with content
+
 ## User Stories
+
 1. As a user, I want to be able to sign up to create my profile
-2. As a user, I want to be able to log in (log out)  of my account
+2. As a user, I want to be able to log in (log out) of my account
 3. As a user, I want to be able to manage my profile by adding personal information, profile picture, and interests.
 4. As a user, I want to be able to search for and follow/unfollow other users
 5. As a user, I want to be able to accept/deny following requests from other users.
@@ -13,6 +16,7 @@ Our company is developing a social platform app for users to connect and share c
 10. As a user, I want to be able to edit or delete content, comments, shares or likes that I created.
 11. As a user, I want to be able to receive notifications about new likes, shares, and comments on my content, as well as new followers and other relevant events.
 12. As a user, I want to be able to save the content so that I can access them later. |
+
 ### Authentication
 
 - [] As a user, I can register for a new account with name, email, and password.
